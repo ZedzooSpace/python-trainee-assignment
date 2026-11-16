@@ -1,6 +1,6 @@
 import asyncio
 import unittest
-from unittest.mock import AsyncMock, MagicMock, patch
+from unittest.mock import AsyncMock, patch
 
 import httpx
 
@@ -70,12 +70,11 @@ class TestClient(unittest.IsolatedAsyncioTestCase):
             with self.assertRaisesRegex(MatrixNetworkError, "Превышено время ожидания"):
                 await get_matrix("https://example.com/matrix.txt")
 
-
-def test_assignment_sync_wrapper() -> None:
-    mock_ctx = _mock_client(status_code=200, text=SAMPLE_RESPONSE)
-    with patch("httpx.AsyncClient", return_value=mock_ctx):
-        assert asyncio.run(get_matrix(SOURCE_URL)) == TRAVERSAL
-
+class TestAssignmentSync(unittest.TestCase):
+    def test_assignment_sync_wrapper(self) -> None:
+        mock_ctx = _mock_client(status_code=200, text=SAMPLE_RESPONSE)
+        with patch("httpx.AsyncClient", return_value=mock_ctx):
+            self.assertEqual(asyncio.run(get_matrix(SOURCE_URL)), TRAVERSAL)
 
 if __name__ == "__main__":
     unittest.main()
