@@ -27,7 +27,11 @@ def parse_matrix(raw_text: str) -> list[list[int]]:
         raise MatrixFormatError("Получена пустая матрица.")
 
     size = len(matrix)
-    if any(len(row) != size for row in matrix):
-        raise MatrixFormatError(f"Матрица не является квадратной ({size}x{len(matrix[0])}).")
+    for idx, row in enumerate(matrix, start=1):
+        if len(row) != size:
+            raise MatrixFormatError(
+                f"Матрица не является квадратной: ожидалось {size} столбцов, "
+                f"но в строке {idx} получено {len(row)}."
+            )
 
     return matrix

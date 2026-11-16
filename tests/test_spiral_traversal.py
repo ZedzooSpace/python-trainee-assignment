@@ -1,6 +1,4 @@
 import unittest
-
-
 from matrix_spiral.spiral_traversal import traverse_counter_clockwise
 
 
